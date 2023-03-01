@@ -1,57 +1,75 @@
-const character = document.getElementById('character');
-const blocks = Array.from(document.getElementsByClassName('block'));
+const character = document.querySelector('.character');
+const block = document.querySelector('.block');
 
 let isJumping = false;
-let jumpSpeed = 0;
+let isMovingLeft = false;
+let isMovingRight = false;
+let gravity = 0.9;
+let velocity = 0;
 
 function jump() {
+  let jumpCount = 0;
   isJumping = true;
-  jumpSpeed = 15;
-  character.classList.add('jump');
-  setTimeout(() => {
-    character.classList.remove('jump');
-  }, 300);
-}
-function applyGravity() {
-  const characterTop = parseInt(window.getComputedStyle(character).getPropertyValue('top'));
-  const characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue('left'));
-  let isOnBlock = false;
+  velocity = -15;
 
-  blocks.forEach(block => {
-    const blockTop = parseInt(window.getComputedStyle(block).getPropertyValue('top'));
-    const blockLeft = parseInt(window.getComputedStyle(block).getPropertyValue('left'));
-    const blockBottom = blockTop + parseInt(window.getComputedStyle(block).getPropertyValue('height'));
-
-    if (blockLeft <= characterLeft && characterLeft <= blockLeft + 60 && characterTop + 60 >= blockTop && characterTop + 60 <= blockBottom) {
-      character.style.top = `${blockTop - 60}px`;
+  let jumpInterval = setInterval(() => {
+    let characterTop = parseInt(window.getComputedStyle(character).getPropertyValue('top'));
+    if ((characterTop > 6 && isMovingLeft) || (characterTop > 6 && isMovingRight)) {
+      character.style.top = `${characterTop + velocity}px`;
+      velocity += gravity;
+    } else if (jumpCount > 10) {
+      clearInterval(jumpInterval);
       isJumping = false;
-      isOnBlock = true;
+      jumpCount = 0;
     }
-  });
-
-  if (characterTop > 300 && !isOnBlock) {
-    jumpSpeed = 0;
-    isJumping = false;
-  } else {
-    jumpSpeed -= 1;
-  }
-  character.style.top = `${characterTop - jumpSpeed}px`;
+    jumpCount++;
+  }, 25);
 }
 
-  
-  
-  
+function moveLeft() {
+  let characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue('left'));
+  character.style.left = `${characterLeft - 5}px`;
+  isMovingLeft = true;
+}
+
+function moveRight() {
+  let characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue('left'));
+  character.style.left = `${characterLeft + 5}px`;
+  isMovingRight = true;
+}
+
+function moveCharacter() {
+  if (isJumping) return;
+  if (isMovingLeft) {
+    moveLeft();
+  } else if (isMovingRight) {
+    moveRight();
+  }
+}
 
 document.addEventListener('keydown', event => {
-  if (event.code === 'ArrowUp' && !isJumping) {
-    jump();
-  }
-  if (event.code === 'ArrowRight') {
-    character.style.left = `${parseInt(window.getComputedStyle(character).getPropertyValue('left')) + 10}px`;
-  }
   if (event.code === 'ArrowLeft') {
-    character.style.left = `${parseInt(window.getComputedStyle(character).getPropertyValue('left')) - 10}px`;
+    isMovingLeft = true;
+  } else if (event.code === 'ArrowRight') {
+    isMovingRight = true;
+  } else if (event.code === 'Space') {
+    jump();
   }
 });
 
-setInterval(applyGravity, 10);
+document.addEventListener('keyup', event => {
+  if (event.code === 'ArrowLeft') {
+    isMovingLeft = false;
+  } else if (event.code === 'ArrowRight') {
+    isMovingRight = false;
+  }
+});
+
+block.addEventListener('click', () => {
+  if (isJumping) return;
+  jump();
+});
+
+setInterval(() => {
+  moveCharacter();
+}, 25);
