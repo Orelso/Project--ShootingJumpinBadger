@@ -1,75 +1,59 @@
-const character = document.querySelector('.character');
-const block = document.querySelector('.block');
+// Define the warrior and mage objects
+const warrior = {
+  name: 'Warrior',
+  health: 100,
+  strength: 10,
+  defense: 5,
+  speed: 5
+};
 
-let isJumping = false;
-let isMovingLeft = false;
-let isMovingRight = false;
-let gravity = 0.9;
-let velocity = 0;
+const mage = {
+  name: 'Mage',
+  health: 100,
+  strength: 5,
+  defense: 2,
+  speed: 10
+};
 
-function jump() {
-  let jumpCount = 0;
-  isJumping = true;
-  velocity = -15;
+// Define a battle function
+function battle(attacker, defender) {
+  // Calculate damage
+  const damage = attacker.strength - defender.defense;
 
-  let jumpInterval = setInterval(() => {
-    let characterTop = parseInt(window.getComputedStyle(character).getPropertyValue('top'));
-    if ((characterTop > 6 && isMovingLeft) || (characterTop > 6 && isMovingRight)) {
-      character.style.top = `${characterTop + velocity}px`;
-      velocity += gravity;
-    } else if (jumpCount > 10) {
-      clearInterval(jumpInterval);
-      isJumping = false;
-      jumpCount = 0;
+  // Calculate chance to hit
+  const hitChance = attacker.speed / defender.speed;
+
+  // Check if attack hits
+  if (Math.random() <= hitChance) {
+    // Attack hits
+    defender.health -= damage;
+    if (defender.health <= 0) {
+      // Defender is defeated
+      console.log(`${defender.name} has been defeated!`);
+    } else {
+      // Defender survives attack
+      console.log(`${defender.name} takes ${damage} damage!`);
     }
-    jumpCount++;
-  }, 25);
-}
-
-function moveLeft() {
-  let characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue('left'));
-  character.style.left = `${characterLeft - 5}px`;
-  isMovingLeft = true;
-}
-
-function moveRight() {
-  let characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue('left'));
-  character.style.left = `${characterLeft + 5}px`;
-  isMovingRight = true;
-}
-
-function moveCharacter() {
-  if (isJumping) return;
-  if (isMovingLeft) {
-    moveLeft();
-  } else if (isMovingRight) {
-    moveRight();
+  } else {
+    // Attack misses
+    console.log(`${attacker.name}'s attack misses!`);
   }
 }
 
-document.addEventListener('keydown', event => {
-  if (event.code === 'ArrowLeft') {
-    isMovingLeft = true;
-  } else if (event.code === 'ArrowRight') {
-    isMovingRight = true;
-  } else if (event.code === 'Space') {
-    jump();
+// Simulate the battle between warrior and mage
+while (warrior.health > 0 && mage.health > 0) {
+  // Warrior attacks first
+  battle(warrior, mage);
+
+  // Mage attacks second
+  if (mage.health > 0) {
+    battle(mage, warrior);
   }
-});
+}
 
-document.addEventListener('keyup', event => {
-  if (event.code === 'ArrowLeft') {
-    isMovingLeft = false;
-  } else if (event.code === 'ArrowRight') {
-    isMovingRight = false;
-  }
-});
-
-block.addEventListener('click', () => {
-  if (isJumping) return;
-  jump();
-});
-
-setInterval(() => {
-  moveCharacter();
-}, 25);
+// Determine the winner
+if (warrior.health <= 0) {
+  console.log(`${mage.name} wins!`);
+} else {
+  console.log(`${warrior.name} wins!`);
+}

@@ -1,13 +1,46 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Mario Game</title>
+	<title>Turn Based</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <div class="character"></div>
-    <div class="block"></div>
-    
+    <div class="team red">
+        <div class="character">
+            <h1>Tunk</h1>
+          <img src="characters/tunk.png" alt="Warrior">
+          <h2>Warrior</h2>
+          <ul>
+            <li>Class: Melee</li>
+            <li>Health: 100</li>
+            <li>Strength: 10</li>
+            <li>Defense: 8</li>
+            <li>Speed: 5</li>
+            <li>Ability: Charge - Deals double damage on the next attack, but reduces defense by 50% for one turn.</li>
+          </ul>
+        </div>
+
+      <div class="team blue">
+        <div class="character">
+          <img src="characters/mesta.png" alt="Archer">
+          <h2>Archer</h2>
+          <ul>
+            <li>Class: Ranged</li>
+            <li>Health: 90</li>
+            <li>Strength: 8</li>
+            <li>Defense: 6</li>
+            <li>Speed: 7</li>
+            <li>Ability: Critical Strike - Has a chance to deal triple damage on the next attack.</li>
+          </ul>
+        </div>
+      </div>
+      
+
+      <div id="battle-log">
+        <!-- Battle log messages will be added here -->
+      </div>
+      
+      
 
 	<script src="index.js"></script>
 </body>

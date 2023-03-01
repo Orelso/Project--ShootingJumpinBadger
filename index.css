@@ -1,18 +1,45 @@
-.character {
-    width: 50px;
-    height: 50px;
-    background-color: red;
-    position: absolute;
-    top: 200px;
-    left: 50px;
+.team {
+    display: flex;
   }
   
-  .block {
-    width: 100px;
-    height: 100px;
-    background-color: blue;
-    position: absolute;
-    top: 200px;
-    left: 200px;
+  .red {
+    background-color: #FF4136;
+  }
+  
+  .blue {
+    background-color: #0074D9;
+  }
+  
+  .character {
+    width: 200px;
+    margin: 10px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  }
+  
+  .character img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+  
+  .character h2 {
+    margin-top: 10px;
+    font-size: 1.5em;
+    text-align: center;
+  }
+  
+  .character ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  
+  .character li {
+    margin: 5px 0;
+    font-size: 0.9em;
+    text-align: center;
   }
   
