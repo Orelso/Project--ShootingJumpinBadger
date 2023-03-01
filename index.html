@@ -12,36 +12,36 @@
           <h2>Warrior</h2>
           <ul>
             <li>Class: Melee</li>
-            <li>Health: 100</li>
+            <li>Health: <span id="tunk-health">100</span></li>
             <li>Strength: 10</li>
             <li>Defense: 8</li>
             <li>Speed: 5</li>
             <li>Ability: Charge - Deals double damage on the next attack, but reduces defense by 50% for one turn.</li>
           </ul>
+          <button id="tunk-attack" onclick="attack('tunk', 'mesta')">Attack</button>
         </div>
+    </div>
 
-      <div class="team blue">
+    <div class="team blue">
         <div class="character">
           <img src="characters/mesta.png" alt="Archer">
           <h2>Archer</h2>
           <ul>
             <li>Class: Ranged</li>
-            <li>Health: 90</li>
+            <li>Health: <span id="mesta-health">90</span></li>
             <li>Strength: 8</li>
             <li>Defense: 6</li>
             <li>Speed: 7</li>
             <li>Ability: Critical Strike - Has a chance to deal triple damage on the next attack.</li>
           </ul>
+          <button id="mesta-attack" onclick="attack('mesta', 'tunk')">Attack</button>
         </div>
-      </div>
-      
+    </div>
 
-      <div id="battle-log">
+    <div id="battle-log">
         <!-- Battle log messages will be added here -->
-      </div>
-      
-      
+    </div>
 
-	<script src="index.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
