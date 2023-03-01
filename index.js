@@ -13,32 +13,31 @@ function jump() {
   }, 300);
 }
 function applyGravity() {
-    const characterTop = parseInt(window.getComputedStyle(character).getPropertyValue('top'));
-    const characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue('left'));
-    let isOnBlock = false;
-  
-    blocks.forEach(block => {
-      const blockTop = parseInt(window.getComputedStyle(block).getPropertyValue('top'));
-      const blockLeft = parseInt(window.getComputedStyle(block).getPropertyValue('left'));
-      const blockHeight = parseInt(window.getComputedStyle(block).getPropertyValue('height'));
-  
-      if (blockLeft <= characterLeft && characterLeft <= blockLeft + 60 && characterTop + 60 >= blockTop && characterTop + 60 <= blockTop + blockHeight) {
-        character.style.top = `${blockTop - 60}px`;
-        isJumping = false;
-        isOnBlock = true;
-      }
-    });
-  
-    if (characterTop > 300 && !isOnBlock) {
-      jumpSpeed = 0;
+  const characterTop = parseInt(window.getComputedStyle(character).getPropertyValue('top'));
+  const characterLeft = parseInt(window.getComputedStyle(character).getPropertyValue('left'));
+  let isOnBlock = false;
+
+  blocks.forEach(block => {
+    const blockTop = parseInt(window.getComputedStyle(block).getPropertyValue('top'));
+    const blockLeft = parseInt(window.getComputedStyle(block).getPropertyValue('left'));
+    const blockBottom = blockTop + parseInt(window.getComputedStyle(block).getPropertyValue('height'));
+
+    if (blockLeft <= characterLeft && characterLeft <= blockLeft + 60 && characterTop + 60 >= blockTop && characterTop + 60 <= blockBottom) {
+      character.style.top = `${blockTop - 60}px`;
       isJumping = false;
-    } else {
-      jumpSpeed -= 1;
+      isOnBlock = true;
     }
-  
-    character.style.top = `${characterTop - jumpSpeed}px`;
+  });
+
+  if (characterTop > 300 && !isOnBlock) {
+    jumpSpeed = 0;
+    isJumping = false;
+  } else {
+    jumpSpeed -= 1;
   }
-  
+  character.style.top = `${characterTop - jumpSpeed}px`;
+}
+
   
   
   
